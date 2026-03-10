@@ -36,6 +36,10 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/var-dumper" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/var-exporter" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/yaml" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/inflector" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/nikic/php-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/maker-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/process" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
