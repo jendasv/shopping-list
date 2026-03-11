@@ -10,8 +10,7 @@ build:
 	docker compose up -d --build
 
 init:
-	$(MAKE) build
-	$(MAKE) composer install
+	$(MAKE) build composer install
 
 clear:
 	docker compose down -v --rmi all
