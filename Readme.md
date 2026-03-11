@@ -21,6 +21,10 @@ It is prepared Makefile for shortening the process:
 make build
 make composer install
 ````
+Or just
+````bash
+make init 
+````
 
 Project:
 - http://localhost:8080/
