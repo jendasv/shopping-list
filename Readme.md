@@ -21,9 +21,10 @@ It is prepared Makefile for shortening the process:
 make build
 make composer install
 ````
-Or just
+
+## Migration
 ````bash
-make init 
+docker compose exec php php bin/console doctrine:migrations:migrate --no-interaction
 ````
 
 Project:
