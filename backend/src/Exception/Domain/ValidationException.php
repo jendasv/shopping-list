@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Exception\Domain;
+
+use RuntimeException;
+
+class ValidationException extends RuntimeException
+{
+    private array $errors;
+
+    public function __construct(array $errors = [], string $message = "Validation failed")
+    {
+        parent::__construct($message);
+
+        $this->errors = $errors;
+    }
+
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
+
+    public function addError(string $field, string $message): void {
+        $this->errors[$field] = $message;
+    }
+
+}
