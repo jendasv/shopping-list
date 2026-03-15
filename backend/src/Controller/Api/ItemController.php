@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/lists/{id}/items', name: 'api_items_')]
+#[Route('/api/lists/{id}/', name: 'api_items_')]
 final class ItemController extends AbstractController
 {
 
@@ -19,7 +19,7 @@ final class ItemController extends AbstractController
         $this->itemService = $itemService;
     }
 
-    #[Route('', name: 'create', methods: ['POST'])]
+    #[Route('item', name: 'create', methods: ['POST'])]
     public function createItem(int $id, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -28,7 +28,7 @@ final class ItemController extends AbstractController
         return $this->json($list, 201);
     }
 
-    #[Route('/{itemId}', name: 'detail', methods: ['GET'])]
+    #[Route('items/{itemId}', name: 'detail', methods: ['GET'])]
     public function getItem(int $id, int $itemId): JsonResponse
     {
         $item = $this->itemService->getItem($itemId);
@@ -36,7 +36,7 @@ final class ItemController extends AbstractController
         return $this->json($item);
     }
 
-    #[Route('/{itemId}', name: 'delete', methods: ['DELETE'])]
+    #[Route('items/{itemId}', name: 'delete', methods: ['DELETE'])]
     public function delete(int $id, int $itemId): JsonResponse
     {
         $this->itemService->deleteItem($id, $itemId);
@@ -44,7 +44,7 @@ final class ItemController extends AbstractController
         return $this->json(null, 204);
     }
 
-    #[Route('/{itemId}', name: 'update', methods: ['PUT'])]
+    #[Route('items/{itemId}', name: 'update', methods: ['PUT'])]
     public function update($id, $itemId, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
