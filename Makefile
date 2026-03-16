@@ -13,6 +13,7 @@ init:
 	docker compose up -d --build
 	docker compose exec php composer install
 	docker compose exec php php bin/console doctrine:migrations:migrate --no-interaction
+	docker compose exec frontend npm install
 
 clear:
 	docker compose down -v --rmi all
