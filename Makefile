@@ -1,5 +1,8 @@
 PHP = docker compose exec php
 
+wait-db:
+	docker compose exec mysql sh -c 'until mysqladmin ping -h"localhost" --silent; do sleep 1; done'
+
 up:
 	docker compose up -d
 
@@ -12,7 +15,7 @@ build:
 init:
 	docker compose up -d --build
 	docker compose exec php composer install
-	sleep 5
+	$(MAKE) wait-db
 	docker compose exec php php bin/console doctrine:migrations:migrate --no-interaction
 
 clear:
