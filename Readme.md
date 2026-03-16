@@ -12,18 +12,17 @@ cd schopping-list
 ````bash
 docker compose up -d --build
 docker compose exec php composer install
-docker compose exec php php bin/console doctrine:migrations:migrate --no-interaction
-````
-
-### Migration
-````bash
-docker compose exec php php bin/console doctrine:migrations:migrate --no-interaction
 ````
 
 ### Docker & Migrations through Makefile
 It is prepared Makefile for shortening the process:
 ````bash
 make init
+````
+
+### Migration
+````bash
+docker compose exec php php bin/console doctrine:migrations:migrate --no-interaction
 ````
 
 Project:
