@@ -12,6 +12,7 @@ build:
 init:
 	docker compose up -d --build
 	docker compose exec php composer install
+	sleep 5
 	docker compose exec php php bin/console doctrine:migrations:migrate --no-interaction
 
 clear:
