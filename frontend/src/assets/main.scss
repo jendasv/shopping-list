@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
+
+body {
+  font-family: 'Caveat', cursive;
+  background-image: url('@/assets/shopping_mal.jpeg');
+
+  background-size: cover;        // obrázek pokryje celé pozadí
+  background-position: center;   // střed obrázku
+  background-repeat: no-repeat;  // obrázek se nebude opakovat
+  min-height: 100vh;             // zajistí, že body bude aspoň na výšku okna
+}
+
+.arrow {
+  path {
+    transition: stroke 0.2s ease;
+  }
+
+  &:hover path {
+    stroke: #888888; /* světlejší šedá */
+  }
+}
+
+.add-list-btn {
+  //position: absolute;
+  //top: 1.5rem; // odpovídá top-6
+  //right: 1.5rem; // odpovídá right-6
+
+  //width: 3rem;   // odpovídá w-12
+  //height: 3rem;  // odpovídá h-12
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  //font-family: Arial, Helvetica, sans-serif; // default font
+  //font-weight: normal;
+  //font-size: 2rem; // mírně menší, aby + bylo uprostřed
+  //line-height: 1;   // eliminace vertikálního posunu
+
+  //border: 1px solid #111; // border-gray-950
+  //border-radius: 50%;      // kruh
+
+  //transition: transform 0.2s ease;
+
+  //&:hover {
+  //  transform: scale(1.1);
+  //}
+}
+
+.arrow-back {
+  position: absolute;
+  top: 1.5rem; // odpovídá top-6
+  left: 1.5rem; // odpovídá right-6
+}

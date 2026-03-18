@@ -14,13 +14,14 @@ docker compose up -d --build
 docker compose exec php composer install
 ````
 
-### Docker & Migrations through Makefile
+### Docker through Makefile
 It is prepared Makefile for shortening the process:
 ````bash
 make init
 ````
 
 ### Migration
+Run the migration:
 ````bash
 docker compose exec php php bin/console doctrine:migrations:migrate --no-interaction
 ````
@@ -30,6 +31,13 @@ Project:
 
 Adminer:
 - http://localhost:8081/
+
+### Enviroment variables
+Frontend:
+- copy .env.example to .env.development
+
+Development:
+- copy .env.example to .env.development
 
 # API list
 ## Base URL

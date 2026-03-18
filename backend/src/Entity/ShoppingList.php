@@ -30,6 +30,11 @@ class ShoppingList
     #[ORM\OneToMany(targetEntity: Item::class, mappedBy: 'shoppingList', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $items;
 
+    public function __construct()
+    {
+        $this->items = new ArrayCollection();
+     }
+
     public function getId(): ?int
     {
         return $this->id;

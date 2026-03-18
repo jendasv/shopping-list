@@ -36,14 +36,6 @@ final class ItemController extends AbstractController
         return $this->json($item);
     }
 
-    #[Route('items/{itemId}', name: 'delete', methods: ['DELETE'])]
-    public function delete(int $id, int $itemId): JsonResponse
-    {
-        $this->itemService->deleteItem($id, $itemId);
-
-        return $this->json(null, 204);
-    }
-
     #[Route('items/{itemId}', name: 'update', methods: ['PUT'])]
     public function update($id, $itemId, Request $request): JsonResponse
     {
@@ -51,6 +43,14 @@ final class ItemController extends AbstractController
         $item = $this->itemService->updateItem($id, $itemId, $data);
 
         return $this->json($item, 200);
+    }
+
+    #[Route('items/{itemId}', name: 'delete', methods: ['DELETE'])]
+    public function delete(int $id, int $itemId): JsonResponse
+    {
+        $this->itemService->deleteItem($id, $itemId);
+
+        return $this->json(null, 204);
     }
 
 }

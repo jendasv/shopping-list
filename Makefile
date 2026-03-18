@@ -1,4 +1,5 @@
 PHP = docker compose exec php
+FRONT = docker compose exec frontend
 
 up:
 	docker compose up -d
@@ -29,6 +30,9 @@ console:
 
 composer:
 	$(PHP) composer $(filter-out $@,$(MAKECMDGOALS))
+
+npm:
+	$(FRONT) npm $(filter-out $@,$(MAKECMDGOALS))
 
 %:
 	@:

@@ -14,34 +14,31 @@ class ShoppingListMapper
         $this->itemMapper = $itemMapper;
     }
 
-    public function map(ShoppingList $shoppingList): array
+    public function map(ShoppingList $shoppingList, bool $listOnly = false): array
     {
+
+        $data = [
+            'id' => $shoppingList->getId(),
+            'name' => $shoppingList->getName(),
+            'createdAt' => $shoppingList->getCreatedAt()->format('Y-m-d H:i:s'),
+            'updatedAt' => $shoppingList->getUpdatedAt()->format('Y-m-d H:i:s'),
+        ];
 
         $items = [];
 
-        /**
-         * @var Item $item
-         */
-//        foreach ($shoppingList->getItems() as $item) {
-//            $items[] = [
-//                'id' => $item->getId(),
-//                'name' => $item->getName(),
-//                'quantity' => $item->getQuantity(),
-//                'is_completed' => $item->isCompleted(),
-//                'createdAt' => $item->getCreatedAt()->format('Y-m-d H:i:s'),
-//                'updatedAt' => $item->getUpdatedAt()->format('Y-m-d H:i:s'),
-//            ];
-//        }
+        if (!$listOnly) {
+            /**
+             * @var Item $item
+             */
+            foreach ($shoppingList->getItems() as $item) {
+                $items[] = $this->itemMapper->map($item);
+            }
 
-        foreach ($shoppingList->getItems() as $item) {
-            $items[] = $this->itemMapper->map($item);
+            $data['items'] = $items;
         }
 
-        return [
-            'id' => $shoppingList->getId(),
-            'name' => $shoppingList->getName(),
-            'items' => $items,
-        ];
+
+        return $data;
     }
 
 }

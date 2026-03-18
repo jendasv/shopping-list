@@ -55,6 +55,7 @@ class ItemService
         $item = new Item();
         $item->setName($data['name']);
         $item->setQuantity($data['quantity'] ?? 1);
+        $item->setIsCompleted($data['isCompleted'] ?? false);
 
         if ($shoppingList) {
             $item->setShoppingList($shoppingList);
@@ -115,8 +116,8 @@ class ItemService
             $item->setQuantity($data['quantity']);
         }
 
-        if (isset($data['is_completed'])) {
-            $item->setIsCompleted($data['is_completed']);
+        if (isset($data['isCompleted'])) {
+            $item->setIsCompleted($data['isCompleted']);
         }
 
         try {
@@ -166,12 +167,12 @@ class ItemService
             is_bool($data['is_completed']) || $exception->addError('is_completed', 'Is completed must be a boolean');
         }
 
-        if (!$itemId) {
-            $item = $this->em->getRepository(Item::class)->findOneBy(['name' => $data['name']]);
-            if ($item) {
-                $exception->addError('name', 'Item with this name already exists');
-            }
-        }
+//        if (!$itemId) {
+//            $item = $this->em->getRepository(Item::class)->findOneBy(['name' => $data['name']]);
+//            if ($item) {
+//                $exception->addError('name', 'Item with this name already exists');
+//            }
+//        }
 
         if (count($exception->getErrors()) > 0) {
             throw $exception;

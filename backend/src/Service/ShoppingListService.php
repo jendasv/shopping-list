@@ -26,6 +26,17 @@ class ShoppingListService
         $this->shoppingListMapper = $shoppingListMapper;
     }
 
+    public function getAllList(): array {
+        $shoppingLists = $this->em->getRepository(ShoppingList::class)->findAll();
+
+        $data = [];
+        foreach ($shoppingLists as $shoppingList) {
+            $data[] = $this->shoppingListMapper->map($shoppingList, TRUE);
+        }
+
+        return $data;
+    }
+
     public function findList(int $id): ?ShoppingList
     {
         return $this->em->getRepository(ShoppingList::class)->find($id);

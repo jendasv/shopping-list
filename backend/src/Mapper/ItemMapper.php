@@ -13,8 +13,8 @@ class ItemMapper
             'id' => $item->getId(),
             'name' => $item->getName(),
             'quantity' => $item->getQuantity(),
-            'is_completed' => $item->isCompleted(),
-            'shopping_list_id' => $item->getShoppingList()?->getId(),
+            'isCompleted' => $item->isCompleted(),
+            'shoppingListId' => $item->getShoppingList()?->getId(),
             'createdAt' => $item->getCreatedAt()->format('Y-m-d H:i:s'),
             'updatedAt' => $item->getUpdatedAt()->format('Y-m-d H:i:s'),
         ];

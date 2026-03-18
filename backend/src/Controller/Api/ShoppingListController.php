@@ -19,6 +19,14 @@ final class ShoppingListController extends AbstractController
         $this->shoppingListService = $shoppingListService;
     }
 
+    #[Route('', name: 'get_all', methods: ['GET'])]
+    public function getAllLists(): JsonResponse
+    {
+        $data = $this->shoppingListService->getAllList();
+
+        return $this->json($data, 200);
+    }
+
     #[Route('/{id}/items', name: 'get', methods: ['GET'])]
     public function getList(int $id): JsonResponse
     {
