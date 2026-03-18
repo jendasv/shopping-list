@@ -80,8 +80,8 @@ async function addList() {
   <p class="text-gray-900 text-2xl text-center mb-10">
     Create your own shopping list and you will never forget anything again! Only if you forgot to write it here.
   </p>
-  <HandDrawnDivider variant="low-wave" customClass=" mb-6"/>
-  <form @submit.prevent="addList" class=" mb-8">
+  <HandDrawnDivider variant="low-wave" customClass="hidden mb-6"/>
+  <form @submit.prevent="addList" class="hidden mb-8">
     <div class="">
       <label for="newListName" class="flex items-center gap-4 ">
         <span class="flex-1">Fast list creating:</span>

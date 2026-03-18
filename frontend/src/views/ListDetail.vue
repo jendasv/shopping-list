@@ -9,13 +9,13 @@ import Typewrite from "@/components/animations/Typewrite.vue";
 import AddItemForm from "@/components/form/AddItemForm.vue";
 import AlertMessage from "@/components/elements/AlertMessage.vue";
 import HandDrawnPencil from "@/components/icons/HandDrawnPencil.vue";
+import {apiFetch} from "@/serivices/api.ts";
 
 const route = useRoute()
 const id = route.params.id as string
 const list = ref<iShoppingList | null>(null)
 const error = ref<string>('')
 const showItemAddForm = ref<boolean>(false)
-const showEditForm = ref<boolean>(false)
 const editingItemId = ref<number | null>(null)
 
 
@@ -33,49 +33,38 @@ const newItem = ref<iItemInput>({
 
 onMounted(async () => {
   try {
-    const response = await fetch(`http://localhost:8080/api/lists/${id}/items`, {
+    list.value =  await apiFetch<iShoppingList>(`/lists/${id}/items`, {
       method: 'GET',
     })
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-    const data = await response.json()
-    list.value = data
-  } catch (error: any) {
 
+  } catch (error: any) {
+    console.error('Failed to remove item:', e)
   }
 })
 
 async function removeItemFromList(listId: number, itemId: number) {
   if (!list.value) return
   try {
-    const response = await fetch(`http://localhost:8080/api/lists/${listId}/items/${itemId}`, {
+    await apiFetch(`/lists/${listId}/items/${itemId}`, {
       method: 'DELETE',
     })
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
 
-    // const data: iShoppingList = await response.json()
     list.value.items = list.value.items.filter((item: iItem) => item.id !== itemId)
   } catch (e) {
     console.error('Failed to remove item:', e)
+    error.value = 'Failed to add item. Try again.'
   }
 }
 
 async function setComplete(listId: number, itemId: number, isCompleted: boolean) {
   try {
-    const response = await fetch(`http://localhost:8080/api/lists/${listId}/items/${itemId}`, {
+    await apiFetch<iItem>(`/lists/${listId}/items/${itemId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         'isCompleted': !isCompleted,
       })
     })
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
 
     list.value.items = list.value.items.map((item: iItem) => {
       if (item.id === itemId) {
@@ -85,6 +74,7 @@ async function setComplete(listId: number, itemId: number, isCompleted: boolean)
     })
   } catch (e) {
     console.error('Failed to remove item:', e)
+    error.value = 'Failed to add item. Try again.'
   }
 }
 async function addItem(item: iItem) {
@@ -101,7 +91,7 @@ async function addItem(item: iItem) {
   }
 
   try {
-    const response: Response = await fetch(`http://localhost:8080/api/lists/${id}/item`, {
+    const data: iShoppingList = await apiFetch<iShoppingList>(`/lists/${id}/item`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -111,11 +101,6 @@ async function addItem(item: iItem) {
       })
     })
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-
-    const data: iShoppingList = await response.json()
     const items: iItem[] = data.items
 
     const lastItem: iItem = items[items.length - 1]
@@ -124,6 +109,7 @@ async function addItem(item: iItem) {
     list.value.items.push(lastItem)
   } catch (e) {
     console.error('Failed to add item:', e)
+    error.value = 'Failed to add item. Try again.'
   }
 
   return;
@@ -145,27 +131,20 @@ async function updateItem(listId: number, item: iItem) {
     return
   }
   try {
-    const response = await fetch(
-      `http://localhost:8080/api/lists/${listId}/items/${item.id}`,
-      {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: item.name,
-          quantity: item.quantity,
-          isCompleted: item.isCompleted
-        })
-      }
-    )
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
+    await apiFetch(`/lists/${listId}/items/${item.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: item.name,
+        quantity: item.quantity,
+        isCompleted: item.isCompleted
+      })
+    })
 
     item.isNew = true
     editingItemId.value = null
   } catch (e) {
-    // console.error('Failed to update item:', e)
+    console.error('Failed to update item:', e)
     error.value = 'Failed to update item. Try again.'
     editingItemId.value = null
   }
@@ -192,61 +171,9 @@ async function updateItem(listId: number, item: iItem) {
   </h1>
 
   <AddItemForm @add="addItem" v-model:showAddForm="showItemAddForm" />
-<!--  <form v-if="showAddForm" @submit.prevent="addItemIntoList" class="relative mb-8 w-full flex flex-col gap-4">
-    <HandDrawnDivider variant="low-wave" customClass="mb-1"/>
-    <HandDrawnClose title="Close form" v-model="showAddForm"/>
 
-    &lt;!&ndash; NAME &ndash;&gt;
-    <div class="flex flex-col">
-      <label class="text-gray-900 mb-1">Name
-      <input
-        v-model="newItem.name"
-        type="text"
-        placeholder="Item name"
-        class="p-2 border-b border-gray-300 focus:outline-none focus:border-gray-600 text-gray-900"
-        @input="error = ''"
-      />
-      </label>
-    </div>
-
-    &lt;!&ndash; QUANTITY &ndash;&gt;
-    <div class="flex flex-col">
-      <label class="text-gray-900 mb-1">Quantity
-      <input
-        v-model.number="newItem.quantity"
-        type="number"
-        min="1"
-        placeholder="1"
-        class="p-2 border-b border-gray-300 focus:outline-none focus:border-gray-600 text-gray-900"
-        @input="error = ''"
-      />
-      </label>
-    </div>
-
-    &lt;!&ndash; CHECKBOX &ndash;&gt;
-    <div class="flex items-center gap-2">
-      <HandDrawnCheckbox v-model="newItem.isCompleted" sizeClass="w-7 h-7">
-        Is it already bought?
-      </HandDrawnCheckbox>
-    </div>
-
-    &lt;!&ndash; SUBMIT &ndash;&gt;
-    <button
-      type="submit"
-      class="mt-4 self-start inline-flex text-gray-900 hover:text-gray-600 text-xl flex items-center gap-2 cursor-pointer transition duration-200 hover:scale-105"
-      :disabled="!newItem.name.trim()"
-    >
-      Add item
-    </button>
-
-    &lt;!&ndash; ERROR &ndash;&gt;
-    <div v-if="error">
-      <span class="text-red-500 text-sm">{{ error }}</span>
-    </div>
-
-  </form>-->
-<!--  <div v-if="error" class="text-red-500">{{ error }}</div>-->
   <AlertMessage v-if="error" :message="error" type="error"/>
+
   <div  v-else-if="list" class="list">
     <HandDrawnDivider variant="low-wave"/>
     <ul class="text-2xl space-y-6">
@@ -268,7 +195,7 @@ async function updateItem(listId: number, item: iItem) {
             {{ item.name }} - {{ item.quantity }}x
           </span>
         </a>
-        <!-- EDIT MODE -->
+
         <form
           v-else
           @submit.prevent="updateItem(list.id, item)"

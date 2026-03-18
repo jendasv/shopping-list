@@ -8,6 +8,7 @@ import Typewrite from "@/components/animations/Typewrite.vue";
 import {useRoute} from "vue-router";
 import AlertMessage from "@/components/elements/AlertMessage.vue";
 import IconPlusCircle from "@/components/icons/IconPlusCircle.vue";
+import {apiFetch} from "@/serivices/api.ts";
 
 interface iNewList {
   name: string
@@ -35,33 +36,26 @@ async function createShoppingList() {
     return
   }
 
-  // if (items.value.length === 0) {
-  //   error.value = 'Add at least one item'
-  //   return
-  // }
-
   const newList: iNewList = {
     name: shoppingListName.value,
     items: items.value
   }
 
   try {
-    const response = await fetch('http://localhost:8080/api/lists', {
+    await apiFetch('/lists', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newList)
+      body: JSON.stringify({
+        name: shoppingListName.value,
+        items: items.value
+      })
     })
-    if (!response.ok) throw new Error(`HTTP ${response.status}`)
 
-    // reset formu
     shoppingListName.value = ''
     items.value = []
     error.value = ''
 
     success.value = 'Shopping list created successfully'
-
-    ///redirect, pokud chceš
-    // router.push({ name: 'home' })
   } catch (e) {
     console.error(e)
     error.value = 'Failed to create shopping list'

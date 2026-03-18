@@ -1,4 +1,5 @@
 <template>
+  <Transition name="unroll">
   <form @submit.prevent="onSubmit" v-if="showAddForm" class="relative mb-4 flex flex-col gap-4 w-full">
     <HandDrawnClose title="Close form" :modelValue="showAddForm" @update:modelValue="val => emit('update:showAddForm', val)"/>
     <!-- NAME -->
@@ -51,6 +52,7 @@
       <span class="text-red-500 text-sm">{{ error }}</span>
     </div>
   </form>
+  </Transition>
 </template>
 
 <script setup lang="ts">
