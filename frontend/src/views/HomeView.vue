@@ -78,7 +78,7 @@ async function addList() {
   </h1>
 
   <p class="text-gray-900 text-2xl text-center mb-10">
-    Create your own shopping list and you will never forget anything again! Only if you forgot to write it here.
+    Create your own shopping list and you will never forget anything again! Only if you forget to write it here.
   </p>
   <HandDrawnDivider variant="low-wave" customClass="hidden mb-6"/>
   <form @submit.prevent="addList" class="hidden mb-8">
