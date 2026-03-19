@@ -44,6 +44,9 @@ Project:
 Adminer:
 - http://localhost:8081/
 
+DB
+- shopping
+
 # API list
 ## Base URL
 ````URL
