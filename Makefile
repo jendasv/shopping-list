@@ -36,3 +36,6 @@ npm:
 
 %:
 	@:
+
+env:
+	./scripts/setup-env.sh $(ENV)

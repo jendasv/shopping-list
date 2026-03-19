@@ -7,6 +7,18 @@ git clone ...
 cd schopping-list
 ````
 
+### Enviroment variables
+Frontend:
+- copy .env.development.example to .env.development
+
+Backend:
+- copy .env.development.example to .env.dev
+
+**OR**
+````bash
+make env ENV=dev
+````
+
 ### Docker
 
 ````bash
@@ -31,13 +43,6 @@ Project:
 
 Adminer:
 - http://localhost:8081/
-
-### Enviroment variables
-Frontend:
-- copy .env.example to .env.development
-
-Development:
-- copy .env.example to .env.development
 
 # API list
 ## Base URL
