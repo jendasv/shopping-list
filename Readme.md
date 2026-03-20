@@ -51,6 +51,9 @@ Project:
 Adminer:
 - http://localhost:8081/
 
+Frontend APP:
+- http://localhost:5173/
+
 DB
 - shopping
 
