@@ -14,28 +14,35 @@ Frontend:
 Backend:
 - copy .env.development.example to .env.dev
 
-**OR**
-````bash
-make env ENV=dev
-````
-
 ### Docker
-
+- build the docker images and composer install
 ````bash
 docker compose up -d --build
 docker compose exec php composer install
-````
-
-### Docker through Makefile
-It is prepared Makefile for shortening the process:
-````bash
-make init
 ````
 
 ### Migration
 Run the migration:
 ````bash
 docker compose exec php php bin/console doctrine:migrations:migrate --no-interaction
+````
+
+## Installation through Makefile
+It is prepared Makefile for shortening the process:
+
+### Create env file
+````bash
+make env ENV=dev
+````
+
+### Init project
+````bash
+make init
+````
+
+### Migration
+````bash
+make migration
 ````
 
 Project:
